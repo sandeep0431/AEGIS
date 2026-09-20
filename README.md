@@ -292,6 +292,7 @@ npm run dev
 ## Future Scope
 
 * Integration of real-time threat intelligence feeds.
+* Expanded credential exposure checks (e.g., email ID breach monitoring, username leaks, and identity compromise lookups).
 * Browser extension for active web browsing inspection.
 * Support for multilingual scam message detection and AI explanations.
 * Expanded Cyber Sense scenario libraries and downloadable threat summaries.
@@ -303,25 +304,4 @@ npm run dev
 * **Dataset**: [UCI PhiUSIIL Phishing URL Dataset](https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset) — UCI Machine Learning Repository (ID: 967).
 * **Password Exposure API**: [Have I Been Pwned Pwned Passwords](https://haveibeenpwned.com/API/v3#PwnedPasswords) by Troy Hunt.
 * **LLM Inference**: [Groq Cloud API](https://groq.com) (`llama-3.1-8b-instant`).
-* **Reporting Resources**: [Indian National Cyber Crime Reporting Portal](https://www.cybercrime.gov.in/).
-
----
-
-## Hackathon Submission Checklist
-
-* [x] Problem statement identified
-* [x] Target users and expected impact documented
-* [x] Solution explained
-* [x] Method and architecture documented
-* [x] Major features documented
-* [x] Technology stack listed
-* [x] AWS technologies and their roles documented
-* [x] Innovation/key features explained
-* [x] Limitations documented
-* [x] Future scope documented
-* [x] GitHub repository available
-* [x] Live demo available
-* [x] Setup instructions provided
-* [x] `.env.example` provided
-* [x] No secrets included
-* [x] External datasets/APIs/services acknowledged
+* **Reporting Resources**: [Indian National Cyber Crime Reporting Portal](https://www.cybercrime.gov.in/)
