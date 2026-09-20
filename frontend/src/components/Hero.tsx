@@ -16,7 +16,7 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick, onExploreClick }) => {
       <div className="hero-gradient-bottom" />
 
       {/* Main Content Container */}
-      <div className="relative z-10 max-w-4xl mx-auto">
+      <div className="relative z-10 max-w-5xl mx-auto">
 
         {/* Monospace Security Badge */}
         <motion.div
@@ -80,26 +80,26 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick, onExploreClick }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-xs font-display font-medium tracking-[0.08em] text-zinc-400 border-t border-white/10 pt-8"
+          className="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 sm:gap-2 md:gap-2.5 lg:gap-3.5 text-[10.5px] sm:text-[11px] md:text-xs font-display font-medium tracking-[0.05em] text-zinc-300 border-t border-white/10 pt-8 w-full max-w-5xl mx-auto"
         >
-          <div className="flex items-center justify-center gap-2 py-1">
-            <Search className="w-3.5 h-3.5 text-[#FF5A00]" />
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-[#FF5A00]/40 transition-colors whitespace-nowrap">
+            <Search className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
             <span>URL SCANNING</span>
           </div>
-          <div className="flex items-center justify-center gap-2 py-1">
-            <QrCode className="w-3.5 h-3.5 text-[#FF5A00]" />
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-[#FF5A00]/40 transition-colors whitespace-nowrap">
+            <QrCode className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
             <span>QR / QUISHING SCAN</span>
           </div>
-          <div className="flex items-center justify-center gap-2 py-1">
-            <AlertTriangle className="w-3.5 h-3.5 text-[#FF5A00]" />
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-[#FF5A00]/40 transition-colors whitespace-nowrap">
+            <AlertTriangle className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
             <span>PHISHING DETECTION</span>
           </div>
-          <div className="flex items-center justify-center gap-2 py-1">
-            <Lock className="w-3.5 h-3.5 text-[#FF5A00]" />
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-[#FF5A00]/40 transition-colors whitespace-nowrap">
+            <Lock className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
             <span>BREACH LOOKUP</span>
           </div>
-          <div className="flex items-center justify-center gap-2 py-1 col-span-2 sm:col-span-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A00]" />
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-[#FF5A00]/40 transition-colors whitespace-nowrap">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A00] shrink-0" />
             <span>SAFETY SCORING</span>
           </div>
         </motion.div>
