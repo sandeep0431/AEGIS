@@ -34,7 +34,7 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 * **Hybrid Detection**: Combines trained Machine Learning models with deterministic security rule engines.
 * **Explainable Signals**: Demystifies verdicts by highlighting explicit URL and text indicators (e.g., punycode, IP host, urgency patterns).
 * **Privacy-Preserving Audits**: Evaluates password exposure using browser-side SHA-1 hashing and *k-anonymity*—plaintext credentials are never transmitted.
-* **Possible Impersonation Flags**: Detects lookalike domains and brand deception patterns.
+* **Possible Impersonation Detection**: Identifies deceptive lookalike domains and brand spoofing patterns across major banking, tech, and streaming services.
 * **Grounded AI Safety Assistant**: Delivers conversational context via Groq LLM without relying on AI for primary threat classification.
 * **Cyber Sense Awareness**: Includes an in-app scenario module to build cybersecurity intuition.
 * **Contextual Escalation**: Directs high-risk cases to official reporting channels (such as India's National Cyber Crime Reporting Portal and 1930 helpline).
@@ -45,7 +45,7 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 
 * **URL Phishing Detection**: Analyzes raw URLs using 33 engineered structural/lexical features via a Random Forest model paired with deterministic security heuristics (IP hosts, HTTPS status, punycode, shorteners, excessive subdomains, entropy).
 * **Suspicious Message Detection**: Scans SMS/messages using TF-IDF vectorization and 22 extracted pattern signals (urgency, credential requests, financial threats, OTP prompts) through Logistic Regression.
-* **Possible Impersonation Detection**: Identifies potential lookalike domains imitating popular tech, banking, and digital services.
+* **Possible Impersonation Detection**: Evaluates URLs and messages against a curated index of recognized brand domains (`KNOWN_BRAND_DOMAINS` covering PayPal, Netflix, Amazon, Apple, Google, Microsoft, SBI, HDFC, ICICI, Paytm, PhonePe, WhatsApp, etc.). Detects brand name placement in suspicious hostnames, deceptive path structures, or unverified domain extensions where the claimed identity does not match official destination domains.
 * **AI Safety Assistant (Nova)**: Powered by Groq (`llama-3.1-8b-instant`) to answer user queries and explain structured scan results. *(Primary classification is performed by ML/heuristics).*
 * **Password Exposure Check**: Audits password compromise via Have I Been Pwned Pwned Passwords using browser-side SHA-1 *k-anonymity* (5-character hash prefix).
 * **Digital Safety Score**: A dynamic 0–100 weighted posture indicator: URL Safety (40%), Message Safety (30%), and Credential Exposure (30%). Higher score = safer state.
@@ -65,12 +65,17 @@ flowchart LR
     
     URL --> RF[Random Forest]
     URL --> H[Security Heuristics]
+    URL --> IMP[Impersonation Engine]
     RF --> R[Hybrid Risk Engine]
     H --> R
+    IMP --> R
     
     MSG --> TF[TF-IDF + 22 Features]
-    TF --> LR[Logistic Regression]
+    MSG --> LR[Logistic Regression]
+    MSG --> IMP_M[Message Impersonation Check]
+    TF --> R
     LR --> R
+    IMP_M --> R
     
     R --> E[Explainable Signals]
     R --> A[Recommended Action]
@@ -128,7 +133,7 @@ flowchart LR
 
 ---
 
-## Machine Learning Pipeline
+## Machine Learning & Threat Detection Pipeline
 
 * **URL Phishing Engine**:
   `Raw URL` → `Feature Extraction (33 features)` → `Random Forest Classifier` + `Heuristic Risk Signals` → `Hybrid Risk Score (0-100)`  
@@ -136,6 +141,9 @@ flowchart LR
 * **Message Detection Engine**:
   `Raw Message` → `TF-IDF Matrix + 22 Pattern Features` → `Logistic Regression Classifier` → `Risk Assessment (0-100)`  
   *Extracted features include*: Urgency markers, credential keywords, financial solicitation terms, OTP prompts, link counts, and capitalization ratios.
+* **Possible Impersonation Engine**:
+  `URL / Message` → `Brand Identity Extraction` → `Domain Canonicalization` → `Known Domain Validation` → `Impersonation Warning`  
+  *Rules & heuristics*: Cross-references claimed brand identities against a curated dataset of official organizational domains (`KNOWN_BRAND_DOMAINS` covering banking, tech, e-commerce, and streaming services). Flags suspicious lookalike hostnames (e.g. `paypal.com.evil.ru`), brand mentions in path segments, and unverified sender links.
 
 ---
 
