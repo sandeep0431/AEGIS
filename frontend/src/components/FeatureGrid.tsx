@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, MessageSquare, Shield, Activity, Bot, Lightbulb, ShieldAlert } from 'lucide-react';
+import { Search, MessageSquare, Shield, Activity, Bot, Lightbulb, ShieldAlert, QrCode } from 'lucide-react';
 
 export const FeatureGrid: React.FC = () => {
   const features = [
@@ -7,6 +7,11 @@ export const FeatureGrid: React.FC = () => {
       icon: <Search className="w-6 h-6 text-[#FF5A00]" />,
       title: "URL Threat Detection",
       desc: "33 structural feature extraction pipeline powered by Random Forest ML models trained on PhiUSIIL datasets."
+    },
+    {
+      icon: <QrCode className="w-6 h-6 text-[#FF5A00]" />,
+      title: "QR / Quishing Scanner",
+      desc: "100% client-side QR image decoder. Inspects destination links from screenshots before you take the click."
     },
     {
       icon: <MessageSquare className="w-6 h-6 text-[#FF5A00]" />,

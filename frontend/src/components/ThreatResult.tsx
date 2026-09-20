@@ -7,9 +7,10 @@ import { shouldShowReportOption, hasFinancialContext, getReportSupportingText, C
 interface ThreatResultProps {
   result: ScanResult;
   onAskAssistant: (question: string) => void;
+  sourceLabel?: string;
 }
 
-export const ThreatResult: React.FC<ThreatResultProps> = ({ result, onAskAssistant }) => {
+export const ThreatResult: React.FC<ThreatResultProps> = ({ result, onAskAssistant, sourceLabel }) => {
   const [expanded, setExpanded] = useState(false);
   const showReport = shouldShowReportOption(result.risk_score);
   const hasFinancial = hasFinancialContext(result);
@@ -86,6 +87,12 @@ export const ThreatResult: React.FC<ThreatResultProps> = ({ result, onAskAssista
           <span className="text-xs font-display font-medium text-zinc-500 uppercase tracking-[0.12em]">
             {result.type === 'url' ? 'URL SCAN RESULT' : 'MESSAGE SCAN RESULT'}
           </span>
+
+          {sourceLabel && (
+            <span className="text-[10px] sm:text-xs font-display font-semibold text-[#FF5A00] uppercase tracking-[0.1em] bg-[#FF5A00]/10 border border-[#FF5A00]/30 px-2.5 py-0.5 rounded-full">
+              {sourceLabel}
+            </span>
+          )}
         </div>
 
         <div className="flex items-baseline gap-2 shrink-0">

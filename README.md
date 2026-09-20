@@ -20,7 +20,7 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 
 ## Target Users & Expected Impact
 
-* **Target Users**: Students, non-technical internet users, and anyone seeking to evaluate suspicious links, messages, or exposed passwords.
+* **Target Users**: Students, non-technical internet users, and anyone seeking to evaluate suspicious links, QR codes, messages, or exposed passwords.
 * **Expected Impact**:
   * Empowers users to identify suspicious digital content before falling victim to fraud.
   * Explains *why* specific content is risky using transparent signal breakdowns.
@@ -34,6 +34,7 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 * **Hybrid Detection**: Combines trained Machine Learning models with deterministic security rule engines.
 * **Explainable Signals**: Demystifies verdicts by highlighting explicit URL and text indicators (e.g., punycode, IP host, urgency patterns).
 * **Privacy-Preserving Audits**: Evaluates password exposure using browser-side SHA-1 hashing and *k-anonymity*—plaintext credentials are never transmitted.
+* **Local QR / Quishing Scanner**: Decodes QR code screenshots directly within the browser using offscreen canvas and jsQR to inspect destination URLs without exposing images to servers or automatically navigating to untrusted destinations.
 * **Possible Impersonation Detection**: Identifies deceptive lookalike domains and brand spoofing patterns across major banking, tech, and streaming services.
 * **Grounded AI Safety Assistant**: Delivers conversational context via Groq LLM without relying on AI for primary threat classification.
 * **Cyber Sense Awareness**: Includes an in-app scenario module to build cybersecurity intuition.
@@ -44,6 +45,7 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 ## Key Features
 
 * **URL Phishing Detection**: Analyzes raw URLs using 33 engineered structural/lexical features via a Random Forest model paired with deterministic security heuristics (IP hosts, HTTPS status, punycode, shorteners, excessive subdomains, entropy).
+* **QR Code / Quishing Scanner**: Privacy-preserving, browser-side QR code decoder powered by `jsQR`. Automatically extracts and validates destination web links from screenshots or photos, allowing users to safely inspect destinations and run them through AEGIS's full URL threat detection pipeline before clicking or scanning on their mobile devices.
 * **Suspicious Message Detection**: Scans SMS/messages using TF-IDF vectorization and 22 extracted pattern signals (urgency, credential requests, financial threats, OTP prompts) through Logistic Regression.
 * **Possible Impersonation Detection**: Evaluates URLs and messages against a curated index of recognized brand domains (`KNOWN_BRAND_DOMAINS` covering PayPal, Netflix, Amazon, Apple, Google, Microsoft, SBI, HDFC, ICICI, Paytm, PhonePe, WhatsApp, etc.). Detects brand name placement in suspicious hostnames, deceptive path structures, or unverified domain extensions where the claimed identity does not match official destination domains.
 * **AI Safety Assistant (Nova)**: Powered by Groq (`llama-3.1-8b-instant`) to answer user queries and explain structured scan results. *(Primary classification is performed by ML/heuristics).*
@@ -60,8 +62,11 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 flowchart LR
     U[User] --> I[AEGIS Interface]
     I --> URL[URL Analysis]
+    I --> QR[QR Code Scanner]
     I --> MSG[Message Analysis]
     I --> PASS[Password Exposure Check]
+    
+    QR -->|Client-side jsQR| URL
     
     URL --> RF[Random Forest]
     URL --> H[Security Heuristics]
@@ -162,6 +167,7 @@ flowchart LR
   2. Browser computes SHA-1 hash via Web Crypto API (with pure JS fallback).
   3. Only the 5-character hash prefix is sent to the HIBP Pwned Passwords range API (*k-anonymity*).
   4. Full hash suffix matching occurs on the returned prefix list. Plaintext passwords are **never** transmitted.
+* **Client-Side QR Code Processing**: QR code images and screenshots are processed strictly in the browser using HTML5 `<canvas>` and `jsQR`. Images are **never** uploaded to AWS, API Gateway, or any third-party service. Only validated HTTP/HTTPS destination URLs are submitted to `/scan/url` upon explicit user confirmation.
 * **Ephemeral Data Processing**: Scanned URLs and text messages are processed in-memory during Lambda invocation and are not stored in any database.
 * **Configuration Safety**: Environment variables are managed via `.env` files; `.env.example` is provided without hardcoded secrets.
 
@@ -180,7 +186,7 @@ flowchart LR
 
 ## Technology Stack
 
-* **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React.
+* **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React, jsQR.
 * **Backend**: Python 3.12, scikit-learn, NumPy, pandas, SciPy, joblib, requests, python-dotenv.
 * **AI Engine**: Groq Cloud API (`llama-3.1-8b-instant`).
 * **External Security Services**: Have I Been Pwned Pwned Passwords (*k-anonymity*).
@@ -210,10 +216,9 @@ AEGIS/
 │   ├── vite.config.ts          # Vite build config
 │   └── src/
 │       ├── App.tsx             # Main dashboard application
-│       ├── components/         # UI components (CyberSense, ThreatResult, etc.)
+│       ├── components/         # UI components (QRCodeScanner, CyberSense, ThreatResult, etc.)
 │       ├── data/               # Cyber Sense scenario bank
 │       └── api/client.ts       # Typed REST client
-├── docs/                       # Project documentation
 ├── .gitignore                  # Exclusion rules
 └── README.md                   # Project overview & documentation
 ```

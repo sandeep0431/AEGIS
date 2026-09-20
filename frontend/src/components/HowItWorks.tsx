@@ -5,7 +5,7 @@ export const HowItWorks: React.FC = () => {
     {
       step: "01",
       title: "CHECK",
-      desc: "Submit a suspicious URL link, SMS message, or email exposure query."
+      desc: "Submit a suspicious URL link, QR code, SMS message, or credential query."
     },
     {
       step: "02",

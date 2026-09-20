@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link2, MessageSquare, Search, RefreshCw, AlertCircle } from 'lucide-react';
+import { Link2, MessageSquare, Search, RefreshCw, AlertCircle, QrCode } from 'lucide-react';
 import { scanUrl, scanMessage, ScanResult } from '../api/client';
 import { ThreatResult } from './ThreatResult';
+import { QRCodeScanner } from './QRCodeScanner';
 
 interface SecurityCheckProps {
   onResultReceived?: (result: ScanResult) => void;
@@ -10,7 +11,8 @@ interface SecurityCheckProps {
 }
 
 export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, onAskAssistant }) => {
-  const [activeTab, setActiveTab] = useState<'url' | 'message'>('url');
+  const [activeTab, setActiveTab] = useState<'url' | 'qr' | 'message'>('url');
+  const [resultSource, setResultSource] = useState<'url' | 'qr' | 'message'>('url');
   const [urlInput, setUrlInput] = useState('');
   const [messageInput, setMessageInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,6 +26,7 @@ export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, 
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultSource('url');
 
     try {
       const res = await scanUrl(urlInput.trim());
@@ -43,6 +46,7 @@ export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, 
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultSource('message');
 
     try {
       const res = await scanMessage(messageInput.trim());
@@ -69,7 +73,7 @@ export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, 
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center justify-center gap-2 mb-6 sm:mb-8 border-b border-white/10 pb-4">
+      <div className="flex items-center justify-center gap-2 mb-6 sm:mb-8 border-b border-white/10 pb-4 flex-wrap">
         <button
           onClick={() => { setActiveTab('url'); setError(null); }}
           className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-display font-semibold tracking-wider uppercase transition-all ${
@@ -80,6 +84,18 @@ export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, 
         >
           <Link2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span>URL Checker</span>
+        </button>
+
+        <button
+          onClick={() => { setActiveTab('qr'); setError(null); }}
+          className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-display font-semibold tracking-wider uppercase transition-all ${
+            activeTab === 'qr'
+              ? 'bg-[#FF5A00] text-white shadow-lg shadow-[#FF5A00]/25'
+              : 'bg-white/5 text-zinc-400 hover:text-white border border-white/10'
+          }`}
+        >
+          <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span>QR Scanner</span>
         </button>
 
         <button
@@ -137,6 +153,30 @@ export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, 
               )}
             </button>
           </form>
+        ) : activeTab === 'qr' ? (
+          <QRCodeScanner
+            analyzing={loading}
+            onAnalyzeUrl={async (decodedUrl) => {
+              setLoading(true);
+              setError(null);
+              setResult(null);
+              setResultSource('qr');
+
+              try {
+                const res = await scanUrl(decodedUrl);
+                setResult(res);
+                if (onResultReceived) onResultReceived(res);
+              } catch (err: any) {
+                setError(err.message || "We couldn't complete the security check. Please try again.");
+              } finally {
+                setLoading(false);
+              }
+            }}
+            onClear={() => {
+              setResult(null);
+              setError(null);
+            }}
+          />
         ) : (
           <form onSubmit={handleScanMessage} className="space-y-4">
             <div className="text-left">
@@ -194,6 +234,7 @@ export const SecurityCheck: React.FC<SecurityCheckProps> = ({ onResultReceived, 
       {result && (
         <ThreatResult 
           result={result} 
+          sourceLabel={resultSource === 'qr' ? 'Detected via QR Code' : undefined}
           onAskAssistant={(q) => {
             if (onAskAssistant) onAskAssistant(q);
           }} 

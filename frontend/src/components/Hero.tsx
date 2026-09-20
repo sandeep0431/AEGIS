@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Search, Lock, AlertTriangle, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Search, Lock, AlertTriangle, ArrowRight, QrCode } from 'lucide-react';
 
 interface HeroProps {
   onScanClick: () => void;
@@ -49,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick, onExploreClick }) => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto font-sans font-normal leading-[1.65] mb-10"
         >
-          Check suspicious links and messages, evaluate your digital breach exposure, and receive grounded security AI guidance before a threat causes harm.
+          Check suspicious links, QR codes, and messages, evaluate your digital breach exposure, and receive grounded security AI guidance before a threat causes harm.
         </motion.p>
 
         {/* Hero Action Buttons */}
@@ -80,11 +80,15 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick, onExploreClick }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-display font-medium tracking-[0.08em] text-zinc-400 border-t border-white/10 pt-8"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-xs font-display font-medium tracking-[0.08em] text-zinc-400 border-t border-white/10 pt-8"
         >
           <div className="flex items-center justify-center gap-2 py-1">
             <Search className="w-3.5 h-3.5 text-[#FF5A00]" />
             <span>URL SCANNING</span>
+          </div>
+          <div className="flex items-center justify-center gap-2 py-1">
+            <QrCode className="w-3.5 h-3.5 text-[#FF5A00]" />
+            <span>QR / QUISHING SCAN</span>
           </div>
           <div className="flex items-center justify-center gap-2 py-1">
             <AlertTriangle className="w-3.5 h-3.5 text-[#FF5A00]" />
@@ -94,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick, onExploreClick }) => {
             <Lock className="w-3.5 h-3.5 text-[#FF5A00]" />
             <span>BREACH LOOKUP</span>
           </div>
-          <div className="flex items-center justify-center gap-2 py-1">
+          <div className="flex items-center justify-center gap-2 py-1 col-span-2 sm:col-span-1">
             <ShieldCheck className="w-3.5 h-3.5 text-[#FF5A00]" />
             <span>SAFETY SCORING</span>
           </div>
