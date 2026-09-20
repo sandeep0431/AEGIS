@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #050505;
+    color: #F5F5F5;
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom Design Tokens & Gradients */
+.bg-canvas {
+  background-color: #050505;
+}
+
+.bg-surface {
+  background-color: #101010;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bg-surface-elevated {
+  background-color: #151515;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Top Organic Curved Hero Radial Gradient */
+.hero-gradient-top {
+  position: absolute;
+  top: -160px;
+  right: -100px;
+  width: 750px;
+  height: 650px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 181, 46, 0.28) 0%,
+    rgba(255, 115, 0, 0.20) 35%,
+    rgba(217, 54, 0, 0.12) 60%,
+    transparent 75%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Bottom Organic Deep Orange / Red Radial Gradient */
+.hero-gradient-bottom {
+  position: absolute;
+  bottom: -220px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 550px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 90, 0, 0.18) 0%,
+    rgba(101, 11, 5, 0.25) 45%,
+    transparent 72%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* CTA Pill Buttons */
+.btn-pill-primary {
+  background-color: #F5F5F5;
+  color: #050505;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  transition: all 200ms ease-out;
+}
+
+.btn-pill-primary:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+}
+
+.btn-pill-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-pill-orange {
+  background-color: #FF5A00;
+  color: #FFFFFF;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  transition: all 200ms ease-out;
+}
+
+.btn-pill-orange:hover {
+  background-color: #D93600;
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 0 24px rgba(255, 90, 0, 0.4);
+}
+
+.btn-pill-orange:active {
+  transform: scale(0.97);
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

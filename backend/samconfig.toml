@@ -1,0 +1,13 @@
+version = 0.1
+
+[default.build.parameters]
+cached   = true
+parallel = true
+
+[default.deploy.parameters]
+stack_name         = "cybersafety-backend"
+region             = "ap-south-1"
+capabilities       = "CAPABILITY_IAM"
+image_repositories = ["DigitalSafetyFunction=437605541316.dkr.ecr.ap-south-1.amazonaws.com/cybersafety-backend"]
+confirm_changeset  = true
+resolve_s3         = true

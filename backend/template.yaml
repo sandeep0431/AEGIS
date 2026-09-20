@@ -1,0 +1,82 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AI-Powered Digital Safety Platform - AWS Serverless Infrastructure
+
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 512
+    # Runtime is not set here — image-based Lambdas do not use Runtime
+
+Resources:
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Name: DigitalSafetyHttpApi
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+
+  DigitalSafetyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Description: Core serverless detection and ML inference handler
+      Environment:
+        Variables:
+          GROQ_API_KEY: ''
+          GROQ_MODEL: 'llama-3.1-8b-instant'
+          ALLOWED_ORIGIN: '*'
+      Events:
+        HealthCheck:
+          Type: HttpApi
+          Properties:
+            Path: /health
+            Method: GET
+            ApiId: !Ref HttpApi
+        ScanUrl:
+          Type: HttpApi
+          Properties:
+            Path: /scan/url
+            Method: POST
+            ApiId: !Ref HttpApi
+        ScanMessage:
+          Type: HttpApi
+          Properties:
+            Path: /scan/message
+            Method: POST
+            ApiId: !Ref HttpApi
+        Assistant:
+          Type: HttpApi
+          Properties:
+            Path: /assistant
+            Method: POST
+            ApiId: !Ref HttpApi
+        PasswordCheck:
+          Type: HttpApi
+          Properties:
+            Path: /password-check
+            Method: POST
+            ApiId: !Ref HttpApi
+        SecurityScore:
+          Type: HttpApi
+          Properties:
+            Path: /score
+            Method: POST
+            ApiId: !Ref HttpApi
+    Metadata:
+      DockerTag: cybersafety-backend
+      DockerContext: ./
+      Dockerfile: Dockerfile
+
+Outputs:
+  ApiEndpoint:
+    Description: HTTP API Gateway endpoint URL
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"

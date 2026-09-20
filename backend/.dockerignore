@@ -1,0 +1,37 @@
+﻿# Secrets — never bake into image
+.env
+*.env
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Bytecode and caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Tests
+tests/
+test_*.py
+*_test.py
+
+# Local dev / editor artefacts
+.git/
+.gitignore
+*.md
+.DS_Store
+Thumbs.db
+
+# SAM / CloudFormation build output (not needed inside the image)
+.aws-sam/
+samconfig.toml
+template.yaml
+
+# Node / frontend (should never be in backend context, but guard anyway)
+node_modules/
+frontend/
+dist/
