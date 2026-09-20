@@ -45,7 +45,7 @@ Everyday internet users face an escalating onslaught of phishing links, credenti
 ## Key Features
 
 * **URL Phishing Detection**: Analyzes raw URLs using 33 engineered structural/lexical features via a Random Forest model paired with deterministic security heuristics (IP hosts, HTTPS status, punycode, shorteners, excessive subdomains, entropy).
-* **QR Code / Quishing Scanner**: Privacy-preserving, browser-side QR code decoder powered by `jsQR`. Automatically extracts and validates destination web links from screenshots or photos, allowing users to safely inspect destinations and run them through AEGIS's full URL threat detection pipeline before clicking or scanning on their mobile devices.
+* **QR Code / Quishing Scanner**: A privacy-first, client-side QR image decoder defending against "quishing" (QR-based phishing) attacks. Powered by an autonomous dual-engine pipeline combining the hardware-accelerated W3C `BarcodeDetector` API with a multi-pass `jsQR` engine (natural resolution, contrast stretching, noise-reduction downscaling, and dual polarity support). Decodes screenshots or camera photos directly in the browser—**the image is never uploaded to any server**. Extracts and validates destination web links, displaying the decoded destination in plain text without auto-navigating, and seamlessly channels verified HTTP/HTTPS links into the authoritative AEGIS URL analysis engine. Non-web QR codes (Wi-Fi strings, plain text, dangerous URI schemes) are safely sanitized and presented as non-executable text.
 * **Suspicious Message Detection**: Scans SMS/messages using TF-IDF vectorization and 22 extracted pattern signals (urgency, credential requests, financial threats, OTP prompts) through Logistic Regression.
 * **Possible Impersonation Detection**: Evaluates URLs and messages against a curated index of recognized brand domains (`KNOWN_BRAND_DOMAINS` covering PayPal, Netflix, Amazon, Apple, Google, Microsoft, SBI, HDFC, ICICI, Paytm, PhonePe, WhatsApp, etc.). Detects brand name placement in suspicious hostnames, deceptive path structures, or unverified domain extensions where the claimed identity does not match official destination domains.
 * **AI Safety Assistant (Nova)**: Powered by Groq (`llama-3.1-8b-instant`) to answer user queries and explain structured scan results. *(Primary classification is performed by ML/heuristics).*
@@ -267,20 +267,22 @@ npm run dev
 1. **Launch**: Open [https://aegis-liard-kappa.vercel.app/](https://aegis-liard-kappa.vercel.app/).
 2. **Safe URL Scan**: Analyze a trusted domain (e.g. `google.com`) → Verifies low risk and clean signals.
 3. **Phishing URL Scan**: Analyze an IP host or lookalike domain → Reviews extracted risk signals and impersonation flags.
-4. **Message Scan**: Analyze an urgent SMS requesting an OTP → Reviews feature breakdown and risk assessment.
-5. **Password Exposure Check**: Enter a test credential → Demonstrates privacy-preserving *k-anonymity* lookup.
-6. **Digital Safety Score**: Views the weighted 0–100 posture score.
-7. **Ask Nova**: Interactively query the AI assistant to explain detection signals.
-8. **Cyber Sense**: Complete a micro-learning scenario to build cybersecurity awareness.
-9. **Reporting Action**: For high-risk outputs ($\ge 76$), inspect reporting referral details to `cybercrime.gov.in` and `1930`.
+4. **QR Code / Quishing Scan**: Upload a screenshot or photo containing a QR code → Demonstrates local, privacy-first decoding (Native `BarcodeDetector` + multi-pass `jsQR`), safe URL destination preview without auto-navigation, and one-click analysis through the AEGIS URL pipeline with a `"Detected via QR Code"` source indicator.
+5. **Message Scan**: Analyze an urgent SMS requesting an OTP → Reviews feature breakdown and risk assessment.
+6. **Password Exposure Check**: Enter a test credential → Demonstrates privacy-preserving *k-anonymity* lookup.
+7. **Digital Safety Score**: Views the weighted 0–100 posture score.
+8. **Ask Nova**: Interactively query the AI assistant to explain detection signals.
+9. **Cyber Sense**: Complete a micro-learning scenario to build cybersecurity awareness.
+10. **Reporting Action**: For high-risk outputs ($\ge 76$), inspect reporting referral details to `cybercrime.gov.in` and `1930`.
 
 ---
 
 ## Innovation & Hackathon Value
 
 * **User-Centric Security Workflow**: Combines **Detect → Explain → Protect → Act** into an accessible interface for everyday users.
+* **Quishing (QR Phishing) Defense**: Protects against one of the fastest-growing modern attack vectors—malicious QR codes on parking meters, payment stands, phishing emails, and physical flyers—by safely unpacking and validating destination links locally before mobile devices are exposed to malicious redirects.
 * **Explainability over Black-Box Scoring**: Explains threat logic via extracted ML/heuristic signals rather than raw opaque verdicts.
-* **Privacy-First Engineering**: Browser-side SHA-1 + *k-anonymity* ensures user passwords remain strictly client-side.
+* **Privacy-First Engineering**: Browser-side SHA-1 + *k-anonymity* for passwords and client-side canvas decoding for QR images ensure sensitive user data and photos are **never** transmitted to servers.
 * **Serverless Container Architecture**: Zero idle compute cost using AWS Lambda, Amazon API Gateway, and Amazon ECR container deployment.
 
 ---
@@ -296,6 +298,7 @@ npm run dev
 
 ## Future Scope
 
+* Live camera video stream scanning for real-time mobile QR code evaluation (`getUserMedia`).
 * Integration of real-time threat intelligence feeds.
 * Expanded credential exposure checks (e.g., email ID breach monitoring, username leaks, and identity compromise lookups).
 * Browser extension for active web browsing inspection.
