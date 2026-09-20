@@ -1,6 +1,5 @@
-# Documentation (Included in repository)
-# docs/
-# /docs/
+# Documentation (Ignored from repository)
+docs/
 
 # Python & ML Artifacts
 __pycache__/
