@@ -377,7 +377,7 @@ export const MicroCoaching: React.FC = () => {
             ))}
           </div>
           <p className="text-[11px] text-zinc-500 font-mono sm:hidden">
-            Swipe card or tap arrows ({currentIndex + 1} of {totalCards})
+            Swipe card or tap arrows
           </p>
         </div>
       </div>
