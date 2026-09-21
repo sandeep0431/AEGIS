@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="font-sans text-zinc-500 text-center md:text-right">
-          <span>© 2026 Aegis Security. All rights reserved.</span>
+          <span>Developed by team The ACERS</span>
         </div>
 
       </div>
