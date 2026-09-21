@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="font-sans text-zinc-500 text-center md:text-right">
-          <span>Developed by team The ACERS</span>
+          <span>Made by Team ACERS</span>
         </div>
 
       </div>
