@@ -116,7 +116,7 @@ export const SecurityScore: React.FC<SecurityScoreProps> = ({
             <div className="space-y-4 text-left font-sans">
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-zinc-400">URL Safety {isCredentialChecked ? '(40% Weight)' : '(55% Weight)'}</span>
+                  <span className="text-zinc-400">URL Safety (40% Weight)</span>
                   <span className="text-zinc-200 font-display font-semibold">{scoreData.breakdown.url_safety}%</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
@@ -131,7 +131,7 @@ export const SecurityScore: React.FC<SecurityScoreProps> = ({
 
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-zinc-400">Message Safety {isCredentialChecked ? '(30% Weight)' : '(45% Weight)'}</span>
+                  <span className="text-zinc-400">Message Safety (30% Weight)</span>
                   <span className="text-zinc-200 font-display font-semibold">{scoreData.breakdown.message_safety}%</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
