@@ -170,9 +170,9 @@ export const CyberSense: React.FC<CyberSenseProps> = () => {
                 </div>
 
                 {/* Headline & Feedback */}
-                <div className="space-y-2">
-                  <h4 className="text-xl sm:text-2xl font-display font-semibold text-white tracking-tight">
-                    <span className="font-accent italic font-normal text-2xl sm:text-3xl text-zinc-200">
+                <div className="space-y-3">
+                  <h4 className="tracking-tight">
+                    <span className="font-accent italic font-normal text-3xl sm:text-4xl text-[#A78BFA] drop-shadow-[0_0_25px_rgba(167,139,250,0.45)] leading-tight block">
                       {selectedOption.responseHeadline}
                     </span>
                   </h4>
